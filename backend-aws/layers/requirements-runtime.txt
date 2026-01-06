@@ -1,9 +1,0 @@
-# Runtime dependencies only (for Lambda layer)
-# DO NOT include development/testing tools
-
-# AWS SDK (usually pre-installed in Lambda, but including for completeness)
-boto3==1.34.34
-botocore==1.34.34
-
-# Core dependencies
-pydantic==2.10.3

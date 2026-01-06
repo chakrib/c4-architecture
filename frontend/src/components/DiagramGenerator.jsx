@@ -56,12 +56,17 @@ function DiagramGenerator() {
       // Check if we should offer suggestions
       const errorMsg = err.message || ''
       
-      // Auto-fetch suggestions for any validation error (not gibberish)
+      // For "too short" or "gibberish" errors, just show the error
+      // The backend already provides helpful suggestions in the error
       if (errorMsg.includes('Input too short') || 
-          errorMsg.includes('Insufficient information') || 
-          errorMsg.includes('provide more information') ||
-          errorMsg.includes('Need at least')) {
-        // Show error and auto-fetch suggestions
+          errorMsg.includes('gibberish') ||
+          errorMsg.includes('Empty input')) {
+        setError(errorMsg)
+      }
+      // For "Insufficient information" errors, fetch AI-generated suggestions
+      else if (errorMsg.includes('Insufficient information') || 
+               errorMsg.includes('provide more information') ||
+               errorMsg.includes('Cannot identify')) {
         setError(errorMsg)
         handleGetSuggestions()
       } else {

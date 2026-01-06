@@ -1,9 +1,0 @@
-# AWS SDK
-boto3==1.34.34
-botocore==1.34.34
-
-# Core dependencies
-pydantic==2.10.3
-
-# For local testing
-aws-sam-cli==1.108.0
