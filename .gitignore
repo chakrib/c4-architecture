@@ -1,0 +1,2 @@
+*.env
+-i '' 's/VITE_ANTHROPIC_API_KEY=.*/VITE_ANTHROPIC_API_KEY=/' backend/.env.env.example
