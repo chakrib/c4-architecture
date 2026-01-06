@@ -42,7 +42,7 @@ AI-powered C4 architecture diagram generator using Django Ninja backend and Reac
 
 2. **Configure API Key**
    
-   Edit `backend-django/.env`:
+   Edit `backend/.env`:
    ```env
    ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
    ```
@@ -94,7 +94,7 @@ After generating a diagram, use the refinement section to modify it:
 
 ```
 c4-enterprise-platform/
-├── backend-django/          # Django Ninja Backend
+├── backend/          # Django Ninja Backend
 │   ├── c4platform/          # Django project settings
 │   ├── diagrams/            # Main app (API, validation, AI service)
 │   ├── venv/                # Python virtual environment
@@ -130,7 +130,7 @@ c4-enterprise-platform/
 
 ### Backend Configuration
 
-`backend-django/.env`:
+`backend/.env`:
 ```env
 ANTHROPIC_API_KEY=sk-ant-api03-your-key-here
 SECRET_KEY=django-secret-key-change-in-production
@@ -151,7 +151,7 @@ VITE_BACKEND_URL=http://localhost:8001
 ### Backend Only
 
 ```bash
-cd backend-django
+cd backend
 source venv/bin/activate
 python manage.py runserver 8001
 ```
@@ -167,7 +167,7 @@ npm run dev
 
 ```bash
 # Backend tests (when implemented)
-cd backend-django
+cd backend
 python manage.py test
 
 # Frontend tests (when implemented)
@@ -225,7 +225,7 @@ Common issues:
 ### API Key Errors
 
 Verify your Anthropic API key:
-1. Check it exists in `backend-django/.env`
+1. Check it exists in `backend/.env`
 2. Verify it's valid at https://console.anthropic.com/
 3. Ensure it has sufficient credits
 
@@ -240,7 +240,7 @@ Verify your Anthropic API key:
 5. Use Gunicorn:
 
 ```bash
-cd backend-django
+cd backend
 gunicorn c4platform.wsgi:application --bind 0.0.0.0:8001 --workers 4
 ```
 

@@ -9,7 +9,7 @@ c4-enterprise-platform/
 ├── README.md                # Main documentation
 ├── start.sh                 # Unified startup script
 │
-├── backend-django/          # Django Ninja Backend
+├── backend/          # Django Ninja Backend
 │   ├── c4platform/          # Django project
 │   │   ├── __init__.py
 │   │   ├── settings.py      # Configuration (loads API key)
@@ -90,8 +90,8 @@ c4-enterprise-platform/
 - ❌ frontend/src/services/C4Validator.js (unused)
 - ❌ frontend/QUICKSTART.md (duplicate)
 - ❌ frontend/README.md (duplicate)
-- ❌ backend-django/start.sh (duplicate)
-- ❌ backend-django/README.md (duplicate)
+- ❌ backend/start.sh (duplicate)
+- ❌ backend/README.md (duplicate)
 - ❌ __pycache__/ directories (Python cache)
 
 ## 📊 Statistics

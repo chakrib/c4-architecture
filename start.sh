@@ -26,9 +26,9 @@ cleanup() {
 
 trap cleanup SIGINT SIGTERM
 
-# Check if backend-django exists
-if [ ! -d "backend-django" ]; then
-    echo -e "${RED}❌ backend-django directory not found!${NC}"
+# Check if backend exists
+if [ ! -d "backend" ]; then
+    echo -e "${RED}❌ backend directory not found!${NC}"
     exit 1
 fi
 
@@ -44,22 +44,22 @@ fi
 echo "📦 Setting up Django Backend..."
 
 # Check if virtual environment exists
-if [ ! -d "backend-django/venv" ]; then
+if [ ! -d "backend/venv" ]; then
     echo -e "${YELLOW}Creating Python virtual environment...${NC}"
-    cd backend-django
+    cd backend
     python -m venv venv
     cd ..
 fi
 
 # Check if .env exists
-if [ ! -f "backend-django/.env" ]; then
-    echo -e "${RED}❌ backend-django/.env file not found!${NC}"
+if [ ! -f "backend/.env" ]; then
+    echo -e "${RED}❌ backend/.env file not found!${NC}"
     echo "Please copy .env.example to .env and configure your API key"
     exit 1
 fi
 
 # Activate virtual environment and check dependencies
-cd backend-django
+cd backend
 source venv/bin/activate
 
 if ! python -c "import django" 2>/dev/null; then
@@ -120,7 +120,7 @@ echo ""
 # START BACKEND
 # ============================================
 echo -e "${GREEN}🔧 Starting Django Backend on http://localhost:8001${NC}"
-cd backend-django
+cd backend
 source venv/bin/activate
 python manage.py runserver 8001 > ../backend.log 2>&1 &
 BACKEND_PID=$!
