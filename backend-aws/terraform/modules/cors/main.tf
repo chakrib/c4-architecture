@@ -1,0 +1,70 @@
+# CORS Module for API Gateway endpoints
+variable "api_id" {
+  description = "API Gateway REST API ID"
+  type        = string
+}
+
+variable "api_resource_id" {
+  description = "API Gateway resource ID"
+  type        = string
+}
+
+variable "allowed_origins" {
+  description = "List of allowed origins for CORS"
+  type        = list(string)
+  default     = ["*"]
+}
+
+# OPTIONS method for CORS preflight
+resource "aws_api_gateway_method" "options" {
+  rest_api_id   = var.api_id
+  resource_id   = var.api_resource_id
+  http_method   = "OPTIONS"
+  authorization = "NONE"
+}
+
+# Mock integration for OPTIONS
+resource "aws_api_gateway_integration" "options" {
+  rest_api_id = var.api_id
+  resource_id = var.api_resource_id
+  http_method = aws_api_gateway_method.options.http_method
+  type        = "MOCK"
+  
+  request_templates = {
+    "application/json" = "{\"statusCode\": 200}"
+  }
+}
+
+# OPTIONS method response
+resource "aws_api_gateway_method_response" "options" {
+  rest_api_id = var.api_id
+  resource_id = var.api_resource_id
+  http_method = aws_api_gateway_method.options.http_method
+  status_code = "200"
+  
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = true
+    "method.response.header.Access-Control-Allow-Methods" = true
+    "method.response.header.Access-Control-Allow-Origin"  = true
+  }
+  
+  response_models = {
+    "application/json" = "Empty"
+  }
+}
+
+# OPTIONS integration response
+resource "aws_api_gateway_integration_response" "options" {
+  rest_api_id = var.api_id
+  resource_id = var.api_resource_id
+  http_method = aws_api_gateway_method.options.http_method
+  status_code = aws_api_gateway_method_response.options.status_code
+  
+  response_parameters = {
+    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,Authorization,X-Amz-Date,X-Api-Key,X-Amz-Security-Token'"
+    "method.response.header.Access-Control-Allow-Methods" = "'GET,POST,PUT,DELETE,OPTIONS'"
+    "method.response.header.Access-Control-Allow-Origin"  = "'${join(",", var.allowed_origins)}'"
+  }
+  
+  depends_on = [aws_api_gateway_integration.options]
+}
