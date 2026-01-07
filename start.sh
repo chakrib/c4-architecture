@@ -44,10 +44,12 @@ fi
 echo "📦 Setting up Django Backend..."
 
 # Check if virtual environment exists
+VENV_CREATED=false
 if [ ! -d "backend/venv" ]; then
     echo -e "${YELLOW}Creating Python virtual environment...${NC}"
     cd backend
-    python -m venv venv
+    python3 -m venv venv
+    VENV_CREATED=true
     cd ..
 fi
 
@@ -60,9 +62,18 @@ fi
 
 # Activate virtual environment and check dependencies
 cd backend
+
+# Ensure venv/bin/activate exists
+if [ ! -f "venv/bin/activate" ]; then
+    echo -e "${RED}❌ venv/bin/activate not found! Recreating virtual environment...${NC}"
+    rm -rf venv
+    python3 -m venv venv
+    VENV_CREATED=true
+fi
+
 source venv/bin/activate
 
-if ! python -c "import django" 2>/dev/null; then
+if ! python -c "import django" 2>/dev/null || [ "$VENV_CREATED" = true ]; then
     echo -e "${YELLOW}Installing backend dependencies...${NC}"
     pip install -q -r requirements.txt
 fi
